@@ -5,10 +5,18 @@ import Foundation
 // E.g., {"type":"email-disabled","sub":"001667.7f1e9b1f0d41426d8d8616e7d06be6f1.0433","event_time":1608693364100,"email":"ttckg8zg7s@privaterelay.appleid.com","is_private_email":"true"}
 public struct AppleEvent: Codable {
     public enum AppleEventType: String, Codable {
+        // User has decided to stop receiving emails on their email relay.
         case emailDisabled = "email-disabled"
+        
+        // User decided to opt back into receiving emails. This and `emailDisabled` only occur if the user is using the private email relay.
         case emailEnabled = "email-enabled"
-        case accountDelete = "account-delete"
+
+        // User decided to stop using their Apple Id with your application. And should be treated as a sign-out by the user. E.g., when a user decides to disconnect your application from Settings. (From https://developer.apple.com/videos/play/wwdc2020/10173/)
+        // Also considered a request from user to "delete their app account" (broader context: "Server to Server Notification Endpoint Sign in with Apple server to server notifications allow you to receive important updates about your users and their accounts. Notifications are sent for each app group when users change mail forwarding preferences, delete their app account, or permanently delete their Apple ID. Each group of apps can have one URL, which must be absolute and include the scheme, host, and path. TLS 1.2 or higher is required to receive notifications. Learn more.") To see these docs, go to: developer.apple.com > Account > Certificates, Identifiers & Profiles > Identifiers > Select your app identifier > Click 'Edit' next to 'Sign In with Apple' > Server to Server Notification Endpoint
         case consentRevoked = "consent-revoked"
+        
+        // User has asked Apple to delete their Apple Id. The user identifier will now no longer be valid.
+        case accountDelete = "account-delete"
     }
 
     public let type: AppleEventType
