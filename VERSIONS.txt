@@ -1,5 +1,8 @@
 AppleJWTDecoder
 
+Version 0.0.4 (12/23/20)
+	Added AppleEventType enum.
+	
 Version 0.0.3 (12/23/20)
 	Make return enum contain generic.
 	
