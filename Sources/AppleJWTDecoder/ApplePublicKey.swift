@@ -8,17 +8,17 @@ import SwiftJWKtoPEM
 /// This is a JSON Web Key and must be converted to a PEM (a public certificate) before you can decode
 /// a JWT. See also https://blog.curtisherbert.com/so-theyve-signed-in-with-apple-now-what/
 /// And see https://github.com/IBM-Swift/Swift-JWT/issues/77
-struct ApplePublicKey<C: AppleClaims>: Decodable {
-    struct Key: Decodable {
-        let kty: String?
-        let kid: String?
-        let use: String?
-        let alg: String?
-        let n: String?
-        let e: String?
+public struct ApplePublicKey<C: AppleClaims>: Decodable {
+    public struct Key: Decodable {
+        public let kty: String?
+        public let kid: String?
+        public let use: String?
+        public let alg: String?
+        public let n: String?
+        public let e: String?
     }
     
-    let keys: [Key]
+    public let keys: [Key]
 }
 
 extension ApplePublicKey {
@@ -49,7 +49,7 @@ extension ApplePublicKey {
         return getPEM(from: key)
     }
     
-    private func getPEM(from key: ApplePublicKey.Key) -> String? {
+    func getPEM(from key: ApplePublicKey.Key) -> String? {
         guard let n = key.n, let e = key.e else {
             return nil
         }
@@ -81,7 +81,7 @@ extension ApplePublicKey {
  */
 
 extension ApplePublicKey {
-    enum TokenVerificationResult {
+    public enum TokenVerificationResult {
         case success(Claims)
         
         // Possible failures
@@ -94,7 +94,7 @@ extension ApplePublicKey {
         case failedValidateClaims
     }
     
-    private func getVerifier(using kid: String) -> JWTVerifier?  {
+    func getVerifier(using kid: String) -> JWTVerifier?  {
         guard let publicKeyPEM = toPEM(kid: kid) else {
             return nil
         }

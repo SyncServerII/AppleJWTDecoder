@@ -1,4 +1,7 @@
 AppleJWTDecoder
 
+Version 0.0.2 (12/23/20)
+	Made some methods/data types public.
+	
 Version 0.0.1 (12/23/20)
 	Basic functionality working.

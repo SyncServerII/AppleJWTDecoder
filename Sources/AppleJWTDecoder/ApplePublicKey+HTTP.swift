@@ -4,7 +4,7 @@ import KituraNet
 import HeliumLogger
 import LoggerAPI
 
-enum FailureResult: Swift.Error {
+public enum FailureResult: Swift.Error {
     case badResponse
     case statusCode(HTTPStatusCode)
     case failedGettingBodyData
