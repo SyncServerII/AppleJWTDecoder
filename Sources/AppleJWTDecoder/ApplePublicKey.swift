@@ -82,7 +82,7 @@ extension ApplePublicKey {
 
 extension ApplePublicKey {
     public enum TokenVerificationResult {
-        case success(Claims)
+        case success(C)
         
         // Possible failures
         case failedPEMConversion

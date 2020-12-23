@@ -1,5 +1,8 @@
 AppleJWTDecoder
 
+Version 0.0.3 (12/23/20)
+	Make return enum contain generic.
+	
 Version 0.0.2 (12/23/20)
 	Made some methods/data types public.
 	
