@@ -4,7 +4,15 @@
 import Foundation
 // E.g., {"type":"email-disabled","sub":"001667.7f1e9b1f0d41426d8d8616e7d06be6f1.0433","event_time":1608693364100,"email":"ttckg8zg7s@privaterelay.appleid.com","is_private_email":"true"}
 public struct AppleEvent: Codable {
-    public let type: String
+    public enum AppleEventType: String, Codable {
+        case emailDisabled = "email-disabled"
+        case emailEnabled = "email-enabled"
+        case accountDelete = "account-delete"
+        case consentRevoked = "consent-revoked"
+    }
+
+    public let type: AppleEventType
+    
     public let sub: String
     public let email: String
     public let is_private_email: Bool
@@ -20,7 +28,7 @@ public struct AppleEvent: Codable {
     
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: RootKeys.self)
-        type = try container.decode(String.self, forKey: .type)
+        type = try container.decode(AppleEventType.self, forKey: .type)
         sub = try container.decode(String.self, forKey: .sub)
         email = try container.decode(String.self, forKey: .email)
         let isPrivate = try container.decode(String.self, forKey: .is_private_email)
