@@ -45,7 +45,7 @@ events: Optional("{
  */
 
 public struct AppleSignInClaims: AppleClaims {
-    enum TestClaimsError: Error {
+    enum ClaimsError: Error {
         case couldNotGetData
     }
     
@@ -76,7 +76,7 @@ public struct AppleSignInClaims: AppleClaims {
         let eventsString = try container.decode(String.self, forKey: .events)
         
         guard let eventData = eventsString.data(using: .utf8) else {
-            throw TestClaimsError.couldNotGetData
+            throw ClaimsError.couldNotGetData
         }
         
         events = try JSONDecoder().decode(AppleEvent.self, from: eventData)
