@@ -13,6 +13,8 @@ public struct AppleEvent: Codable {
 
         // User decided to stop using their Apple Id with your application. And should be treated as a sign-out by the user. E.g., when a user decides to disconnect your application from Settings. (From https://developer.apple.com/videos/play/wwdc2020/10173/)
         // Also considered a request from user to "delete their app account" (broader context: "Server to Server Notification Endpoint Sign in with Apple server to server notifications allow you to receive important updates about your users and their accounts. Notifications are sent for each app group when users change mail forwarding preferences, delete their app account, or permanently delete their Apple ID. Each group of apps can have one URL, which must be absolute and include the scheme, host, and path. TLS 1.2 or higher is required to receive notifications. Learn more.") To see these docs, go to: developer.apple.com > Account > Certificates, Identifiers & Profiles > Identifiers > Select your app identifier > Click 'Edit' next to 'Sign In with Apple' > Server to Server Notification Endpoint
+        // "If you stop using your Apple ID with this app, you may be asked to create a new account the next time you use the app." and "Next time you use this app, you may be asked to create a new account." (https://appleid.apple.com/account/manage)
+        //      This seems to give some latitude to how apps want to handle this.
         case consentRevoked = "consent-revoked"
         
         // User has asked Apple to delete their Apple Id. The user identifier will now no longer be valid.
@@ -21,10 +23,14 @@ public struct AppleEvent: Codable {
 
     public let type: AppleEventType
     
+    // The users id
     public let sub: String
-    public let email: String
-    public let is_private_email: Bool
+    
     public let event_time: Date
+
+    // nil in `consentRevoked` and `accountDelete`.
+    public let email: String?
+    public let is_private_email: Bool?
     
     enum RootKeys: String, CodingKey {
         case type
@@ -38,10 +44,40 @@ public struct AppleEvent: Codable {
         let container = try decoder.container(keyedBy: RootKeys.self)
         type = try container.decode(AppleEventType.self, forKey: .type)
         sub = try container.decode(String.self, forKey: .sub)
-        email = try container.decode(String.self, forKey: .email)
-        let isPrivate = try container.decode(String.self, forKey: .is_private_email)
-        is_private_email = isPrivate == "true" ? true : false
         event_time = try container.decode(Date.self, forKey: .event_time)
+        
+        do {
+            email = try container.decode(String.self, forKey: .email)
+        } catch let error {
+            guard let decodingError = error as? DecodingError else {
+                throw error
+            }
+            
+            if case .keyNotFound = decodingError {
+                // It's OK if we don't have this field.
+                email = nil
+            }
+            else {
+                throw error
+            }
+        }
+        
+        do {
+            let isPrivate = try container.decode(String.self, forKey: .is_private_email)
+            is_private_email = isPrivate == "true" ? true : false
+        } catch let error {
+            guard let decodingError = error as? DecodingError else {
+                throw error
+            }
+            
+            if case .keyNotFound = decodingError {
+                // It's OK if we don't have this field.
+                is_private_email = nil
+            }
+            else {
+                throw error
+            }
+        }
     }
 }
 
