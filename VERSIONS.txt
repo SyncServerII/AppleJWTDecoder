@@ -1,5 +1,8 @@
 AppleJWTDecoder
 
+Version 0.0.7 (7/31/21)
+	Updated Swift-JWT to my fork becuase of a conflict.
+    
 Version 0.0.6 (12/23/20)
 	Fixed issue: Some event fields can be nil.
 

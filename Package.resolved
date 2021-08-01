@@ -24,8 +24,8 @@
         "repositoryURL": "https://github.com/Kitura/BlueRSA.git",
         "state": {
           "branch": null,
-          "revision": "c885fcdbe1b04718cb46d747387137653c030f6c",
-          "version": "1.0.200"
+          "revision": "440f78db26d8bb073f29590f1c7bd31004da09ae",
+          "version": "1.0.201"
         }
       },
       {
@@ -102,11 +102,11 @@
       },
       {
         "package": "SwiftJWT",
-        "repositoryURL": "https://github.com/IBM-Swift/Swift-JWT.git",
+        "repositoryURL": "https://github.com/crspybits/Swift-JWT.git",
         "state": {
           "branch": null,
-          "revision": "2f2fc12ae88660e0760b04d9e6c341517b31ad7b",
-          "version": "3.6.200"
+          "revision": "63551370327fb66589d468df84689e334749268c",
+          "version": "3.6.201"
         }
       },
       {
