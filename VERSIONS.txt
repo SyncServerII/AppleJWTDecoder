@@ -1,5 +1,8 @@
 AppleJWTDecoder
 
+Version 0.0.8 (7/31/21)
+	Reverted that last change.
+    
 Version 0.0.7 (7/31/21)
 	Updated Swift-JWT to my fork becuase of a conflict.
     
